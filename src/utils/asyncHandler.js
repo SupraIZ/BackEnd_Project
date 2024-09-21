@@ -1,7 +1,11 @@
+//the basic need of this file is to minimize the usage of try-catch block in controllers.
+
 // promise handler way
 const asyncHandler = (requestHandler) => {
-  (req, res, next) => {
-    Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
+  // Higher Order function =>  Here, as accepted as a function and also returned as a function also.
+  return (req, res, next) => {
+    Promise.resolve(requestHandler(req, res, next)).catch
+    ((err) => next(err));
   };
 };
 

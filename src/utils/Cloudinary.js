@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
-import fs from fs
+import fs from "fs"
 
 
 // Configuration
@@ -27,4 +27,4 @@ const uploadResult = async (localFilePath) => {
 }
 
 
-export default uploadResult
+export {uploadResult}

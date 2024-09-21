@@ -1,7 +1,6 @@
-import { express } from 'express';
+import express from 'express';
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
-
 
 const app = express()
 
@@ -20,4 +19,11 @@ app.use(express.static("public"))
 //to access the cookie and set them.
 app.use(cookieParser())
 
-export default app
+//routes import
+import userRouter from './routes/user.routes.js';
+
+//routes declaration
+app.use("/api/v1/users", userRouter)
+//ex:- http://localhost:8000/api/v1/users/register for now the route will be this according to the code above.
+
+export { app }
