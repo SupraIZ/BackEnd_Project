@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
 //Password encryption while saving frist time.
 userSchema.pre("save", async function(next) {
     if(!this.isModified("password")) return next();
-
+    // here before bcrypt await is used in video but here await does'nt have any effect
     this.password = bcrypt.hash(this.password, 10)
     next()
 })
