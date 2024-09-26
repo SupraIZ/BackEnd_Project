@@ -7,6 +7,7 @@ const router = Router()
 
 router.route("/register").post(
     // middleware
+    // fields used to get multiple data from the user
     upload.fields([
         {
             name: "avatar",
