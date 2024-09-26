@@ -1,11 +1,9 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "./../models/user.model.js";
-import { uploadResult } from "../utils/Cloudinary.js";
+import { uploadOnCloudinary } from "../utils/Cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { jwt } from "jsonwebtoken";
-import { verifyJWT } from "./../middlewares/auth.middleware";
-import { upload } from "./../middlewares/multer.middleware";
 
 // Internal methods
 const generateAccessAndRefreshToken = async (userId) => {
@@ -75,8 +73,8 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // upload them to cloudinary, avatar
-  const avatar = await uploadResult(avatarLocalPath);
-  const coverImage = await uploadResult(coverImageLocalPath);
+  const avatar = await uploadOnCloudinary(avatarLocalPath);
+  const coverImage = await uploadOnCloudinary(coverImageLocalPath);
   if (!avatar) {
     throw new ApiError(400, "Avatar file is required.");
   }
@@ -183,7 +181,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, {}, "User LoggedOut Successfully"));
 });
-
+jwt
 //when the access token expires then a new access token will be generated.
 const refreshAccessToken = asyncHandler(async (req, res) => {
   //storing of token
@@ -297,7 +295,7 @@ const avatarUserUpdate = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Avatar file is missing");
   }
 
-  const avatar = await upload(avatarLocalPath);
+  const avatar = await uploadOnCloudinary(avatarLocalPath);
 
   if (!avatar.url) {
     throw new ApiError(400, "Error while uploading on avatar");
@@ -328,7 +326,7 @@ const coverImageUserUpdate = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Cover Image file is missing");
   }
 
-  const coverImage = await upload(coverImageLocalPath);
+  const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
   if (!coverImage.url) {
     throw new ApiError(400, "Error while uploading on Cover Image");
